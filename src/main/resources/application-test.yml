@@ -1,0 +1,18 @@
+spring:
+  #데이터베이스 설정
+  datasource:
+    #카멜케이스 가능, 또는 단어 사이 '-' 넣어서 작성
+    driverClassName: org.h2.Driver #드라이버 입력
+    url: jdbc:h2:mem:test
+    username: sa #h2 DB는 비번 없음
+    password:
+
+  #JPA 설정
+  jpa:
+    #property 설정
+    properties:
+      hibernate:
+        show_sql: true #sql 쿼리 보여주기
+        format_sql: true
+        use_sql_comments: true
+        #dialect는 드라이버를 보고 알 수 있기 때문에 별도 설정은 안해도 됨

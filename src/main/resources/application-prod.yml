@@ -1,0 +1,27 @@
+#배포용 설정
+spring: #스프링 하위 설정
+  jpa:
+    #hibernate 설정
+    hibernate:
+      ddl-auto: create #개발환경에 맞게 설정
+
+  #dev livereload 설정: 코드 수정 시 알아서 서버 온오프
+  devtools:
+    livereload:
+      enabled: true
+
+  #정적 자원 설정(css, js, img), 배포 시에는 해당 설정이 필요없다
+  web:
+    resources:
+      staticLocations: classpath:/static/
+      
+  #타임리프 설정
+  thymeleaf:
+    cache: true #캐시 이용해서 한번만 번역하기 위함
+    prefix: classpath:/templates/
+
+#파일 업로드 경로 설정
+file:
+  upload:
+    path: /home/ubuntu/uploads
+    url: /upload/
