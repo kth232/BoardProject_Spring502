@@ -39,8 +39,8 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0' //thymeleaf-layout 추가
 	implementation 'org.modelmapper:modelmapper:3.2.1' //필드 값을 자동으로 객체와 mapping
 
-	implementation 'com.querydsl:querydsl-jpa:5.1.0' //querydsl 의존성 추가
-	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0' //annotationProcessor로 변경
+	implementation 'com.querydsl:querydsl-jpa:5.1.0:jakarta' //querydsl 의존성 추가
+	annotationProcessor 'com.querydsl:querydsl-apt:5.1.0:jakarta' //annotationProcessor로 변경
 
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api' //5버전은 javax가 기본 패키지
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api' //javax->jakarta로 패키지 호환하기 위해 추가
