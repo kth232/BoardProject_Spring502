@@ -1,12 +1,12 @@
-package org.choongang.Member.services;
+package org.choongang.member.services;
 
 import lombok.RequiredArgsConstructor;
-import org.choongang.Member.constants.Authority;
-import org.choongang.Member.controllers.RequestJoin;
-import org.choongang.Member.entities.Authorities;
-import org.choongang.Member.entities.Member;
-import org.choongang.Member.repositories.AuthoritiesRepository;
-import org.choongang.Member.repositories.MemberRepository;
+import org.choongang.member.constants.Authority;
+import org.choongang.member.controllers.RequestJoin;
+import org.choongang.member.entities.Authorities;
+import org.choongang.member.entities.Member;
+import org.choongang.member.repositories.AuthoritiesRepository;
+import org.choongang.member.repositories.MemberRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,11 +1,11 @@
-package org.choongang.Member.entities;
+package org.choongang.member.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.choongang.Member.constants.Authority;
+import org.choongang.member.constants.Authority;
 
 @Data
 @Entity

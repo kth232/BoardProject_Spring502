@@ -1,8 +1,8 @@
-package org.choongang.Member.repositories;
+package org.choongang.member.repositories;
 
-import org.choongang.Member.entities.Authorities;
-import org.choongang.Member.entities.AuthoritiesId;
-import org.choongang.Member.entities.Member;
+import org.choongang.member.entities.Authorities;
+import org.choongang.member.entities.AuthoritiesId;
+import org.choongang.member.entities.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 

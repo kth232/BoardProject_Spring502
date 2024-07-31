@@ -1,8 +1,8 @@
-package org.choongang.Member.validators;
+package org.choongang.member.validators;
 
 import lombok.RequiredArgsConstructor;
-import org.choongang.Member.controllers.RequestJoin;
-import org.choongang.Member.repositories.MemberRepository;
+import org.choongang.member.controllers.RequestJoin;
+import org.choongang.member.repositories.MemberRepository;
 import org.choongang.global.validators.MobileValidator;
 import org.choongang.global.validators.PasswordValidator;
 import org.springframework.stereotype.Component;
@@ -20,6 +20,7 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         return clazz.isAssignableFrom(RequestJoin.class);
     }
 
+    @Override
     public void validate(Object target, Errors errors) {
         //기본 검증 후 추가 검증 수행
         if(errors.hasErrors()) { //이미 기본 검증에서 실패한 경우 추가, 검증 진행할 필요 없이 바로 리턴
@@ -40,8 +41,8 @@ public class JoinValidator implements Validator, PasswordValidator, MobileValida
         String confirmPassword = form.getConfirmPassword();
         String mobile = form.getMobile();
 
-        //1. 이미 가입된 회원인지 체크
-        if(memberRepository.exists(email)) {
+        // 1. 이미 가입된 회원인지 체크
+        if (memberRepository.exists(email)) {
             errors.rejectValue("email", "Duplicated");
         }
 

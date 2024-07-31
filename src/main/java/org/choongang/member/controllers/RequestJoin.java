@@ -1,4 +1,4 @@
-package org.choongang.Member.controllers;
+package org.choongang.member.controllers;
 
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Email;

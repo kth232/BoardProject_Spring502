@@ -1,4 +1,4 @@
-package org.choongang.Member.constants;
+package org.choongang.member.constants;
 
 public enum Authority {
     ADMIN,

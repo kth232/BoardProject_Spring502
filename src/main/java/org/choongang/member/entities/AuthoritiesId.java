@@ -1,9 +1,9 @@
-package org.choongang.Member.entities;
+package org.choongang.member.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.choongang.Member.constants.Authority;
+import org.choongang.member.constants.Authority;
 
 @AllArgsConstructor
 @NoArgsConstructor

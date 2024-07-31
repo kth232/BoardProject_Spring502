@@ -1,4 +1,4 @@
-package org.choongang.Member.entities;
+package org.choongang.member.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,8 +1,8 @@
-package org.choongang.Member;
+package org.choongang.member;
 
 import lombok.Builder;
 import lombok.Data;
-import org.choongang.Member.entities.Member;
+import org.choongang.member.entities.Member;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,11 +11,11 @@ import java.util.Collection;
 @Data
 @Builder
 public class MemberInfo implements UserDetails {
-    //중요한 추상 메서드 3가지
+    //UserDetails 구현체
 
     private String email;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities; //인가
     private Member member;
 
 
@@ -47,11 +47,12 @@ public class MemberInfo implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; //비번 만료 시 재설정
+        return true; //비번 유효기간 만료 시 초기화->보안상 비번 바꿀 때
     }
 
     @Override
     public boolean isEnabled() {
-        return true;//회원 탈퇴 여부 체크
+        return true;//회원 탈퇴 여부 체크, 탈퇴 시 false
     }
+    //해당 값에 따라 예외 처리 다양함->후속 처리 다름
 }
