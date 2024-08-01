@@ -3,28 +3,26 @@ package org.choongang.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.choongang.board.entities.Board;
 import org.choongang.board.repositories.BoardRepository;
-import org.choongang.member.MemberInfo;
+import org.choongang.global.exceptions.ExceptionProcessor;
+import org.choongang.global.exceptions.script.AlertRedirectException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @Slf4j
 @Controller
 @RequestMapping("/member")
 @RequiredArgsConstructor
 @SessionAttributes("requestLogin")
-public class MemberController{
+public class MemberController implements ExceptionProcessor { //ExceptionProcessor로 우선 유입됨
+    //필요한 컨트롤러에 ExceptionProcessor 구현해서 예외 처리
     //컨트롤러는 컨트롤러의 역할만!, DB처리는 다른 곳에서 하는 것이 좋다=단일책임원칙
 
     private final JoinValidator joinValidator; //의존성 주입
@@ -39,6 +37,14 @@ public class MemberController{
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form) {
+
+        //예외 테스트
+        boolean result = false;
+        if(!result) {
+            //throw new AlertException("test exception", HttpStatus.BAD_REQUEST);
+            throw new AlertRedirectException("test exception", "/mypage", HttpStatus.BAD_REQUEST);
+        }
+
         return "front/member/join";
     }
 
@@ -73,6 +79,24 @@ public class MemberController{
         return "front/member/login";
     }
 
+    @GetMapping("/test6")
+    @ResponseBody
+    @PreAuthorize("isAuthenticated()") //특정 메서드에 권한 통제 가능, 메서드 실행 전 인증 수행
+    public void test06() {
+        log.info("test6-회원만 접근 가능");
+
+    }
+
+    @GetMapping("/test7")
+    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('ADMIN')") //특정 메서드에 권한 통제 가능, 메서드 실행 전 인증 수행
+    public void test07() {
+        log.info("test7-관리자만 접근 가능");
+
+    }
+
+
+/*
     @ResponseBody //일반 컨트롤러에서 void를 사용하고 싶을 때
     @GetMapping("/test")
     public void test(Principal principal) {
@@ -128,4 +152,5 @@ public class MemberController{
 
         boardRepository.saveAndFlush(board);
     }
+*/
 }
