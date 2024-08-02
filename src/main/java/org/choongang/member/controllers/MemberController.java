@@ -3,7 +3,7 @@ package org.choongang.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.choongang.board.repositories.BoardRepository;
+import org.choongang.file.services.repositories.BoardRepository;
 import org.choongang.global.exceptions.ExceptionProcessor;
 import org.choongang.global.exceptions.script.AlertRedirectException;
 import org.choongang.member.MemberUtil;

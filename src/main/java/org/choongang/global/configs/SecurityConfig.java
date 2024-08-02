@@ -82,6 +82,9 @@ public class SecurityConfig { //시큐리티 설정
         });
         */
         //인가(접근 통제) 설정 E
+        
+        //iframe 자원 출처를 같은 서버 자원으로 한정<-ifrm 오류 방지
+        http.headers(c->c.frameOptions(f-> f.sameOrigin()));
 
         return http.build();
     }

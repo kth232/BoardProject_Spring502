@@ -26,7 +26,8 @@ public class MemberUtil { //편의기능 정의, 매번 일일이 적기 힘들�
 
     public Member getMember() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo) {
+        //authentication 객체가 null이 아니고 권한이 부여되어 있으면서 memberInfo에 있는 경우
+        if(authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof MemberInfo) {
             MemberInfo memberInfo = (MemberInfo) authentication.getPrincipal();
             return memberInfo.getMember();
         }

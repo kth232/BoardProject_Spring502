@@ -1,4 +1,4 @@
-package org.choongang.board.entities;
+package org.choongang.file.services.entities;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -15,7 +15,7 @@ import com.querydsl.core.types.Path;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QBoard extends EntityPathBase<Board> {
 
-    private static final long serialVersionUID = 1615681981L;
+    private static final long serialVersionUID = -1507464493L;
 
     public static final QBoard board = new QBoard("board");
 

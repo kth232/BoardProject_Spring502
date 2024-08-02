@@ -1,4 +1,4 @@
-package org.choongang.board.entities;
+package org.choongang.file.services.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
