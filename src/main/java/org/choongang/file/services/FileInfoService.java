@@ -1,17 +1,23 @@
 package org.choongang.file.services;
 
+import com.querydsl.core.BooleanBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.choongang.file.constants.FileStatus;
 import org.choongang.file.entities.FileInfo;
+import org.choongang.file.entities.QFileInfo;
 import org.choongang.file.exceptions.FileNotFoundException;
 import org.choongang.file.repositories.FileInfoRepository;
 import org.choongang.global.configs.FileProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
+
+import static org.springframework.data.domain.Sort.Order.asc;
 
 @Service
 @RequiredArgsConstructor
@@ -48,10 +54,38 @@ public class FileInfoService {
      * @param status - All: 완료+미완료, DONE: 완료, UNDONE: 미완료
      * @return
      */
-    
+    //다양한 유형에 맞게 사용하기 위해 메서드 오버로드
     public List<FileInfo> getList(String gid, String location, FileStatus status) {
-        return null;
+
+        QFileInfo fileInfo = QFileInfo.fileInfo;
+        BooleanBuilder andBuilder = new BooleanBuilder();
+        andBuilder.and(fileInfo.gid.eq(gid));
+        //선택적으로 조건 추가
+
+        if(StringUtils.hasText(location)) {
+            andBuilder.and(fileInfo.location.eq(location));
+        }
+
+        if(status != FileStatus.ALL) {
+            andBuilder.and(fileInfo.done.eq(status == FileStatus.DONE));
+        } //or 조건이면 전부 다 해당되기 때문에 and 조건으로 done, undone
+
+        List<FileInfo> items = (List<FileInfo>) infoRepository.findAll(andBuilder, Sort.by(asc("createdAt")));
+
+        //2차 추가 데이터 처리
+        items.forEach(this::addFileInfo);
+
+        return items;
     }
+
+    public List<FileInfo> getList(String gid, String location) {
+        return getList(gid, location, FileStatus.DONE);
+    }
+
+    public List<FileInfo> getList(String gid) {
+        return getList(gid, null, FileStatus.DONE);
+    }
+
 
     /**
      * 파일 정보 추가 처리

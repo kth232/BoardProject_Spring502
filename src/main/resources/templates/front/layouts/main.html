@@ -22,8 +22,13 @@
     <!--컨트롤러가 없는 경우 layout 블럭으로 내용 치환 정의-->
     <script th:src="@{/common/js/common.js}"></script>
     <script th:src="@{/front/js/common.js}"></script>
-    <script th:if="${addScript != null}" th:each="jsFile: ${addScript}"
-            th:src="@{/front/js/{file}.js(file=${jsFile})}"></script>
+
+    <script th:if="${addCommonScript != null}" th:each="jsFile: ${addCommonScript}"
+            th:src="@{/common/js/{file}.js(file=${jsFile})}"></script>
+    <!--추후 url로 연결하면 @{} 변수식으로 넣어야 함-->
+    <th:block layout:fragment="addCommonScript"></th:block>
+
+    <script th:if="${addScript != null}" th:each="jsFile : ${addScript}" th:src="@{/front/js/{file}.js(file=${jsFile})}"></script>
     <th:block layout:fragment="addScript"></th:block>
 </head>
 <body>
