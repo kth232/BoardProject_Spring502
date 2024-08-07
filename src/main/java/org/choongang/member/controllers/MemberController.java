@@ -5,11 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.choongang.file.services.repositories.BoardRepository;
 import org.choongang.global.exceptions.ExceptionProcessor;
-import org.choongang.global.exceptions.script.AlertRedirectException;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -37,14 +35,14 @@ public class MemberController implements ExceptionProcessor { //ExceptionProcess
 
     @GetMapping("/join")
     public String join(@ModelAttribute RequestJoin form) {
-
+        /*
         //예외 테스트
         boolean result = false;
         if(!result) {
             //throw new AlertException("test exception", HttpStatus.BAD_REQUEST);
             throw new AlertRedirectException("test exception", "/mypage", HttpStatus.BAD_REQUEST);
         }
-
+        */
         return "front/member/join";
     }
 

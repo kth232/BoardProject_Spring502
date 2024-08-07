@@ -21,7 +21,9 @@ import java.util.UUID;
 public class FileUploadService {
 
     private final FileInfoRepository fileInfoRepository;
+    private final FileInfoService infoService;
     private final FileProperties properties;
+    private final FileInfoService fileInfoService;
 
 
     public List<FileInfo> upload(MultipartFile[] files, String gid, String location) {
@@ -34,7 +36,7 @@ public class FileUploadService {
 
         gid = StringUtils.hasText(gid) ? gid : UUID.randomUUID().toString(); //gid 없으면 기본값으로 넣어줌
 
-        List<FileInfo> uploadFiles = new ArrayList<>(); //업로드 성공한 파일들 정보 저장할 리스트
+        List<FileInfo> uploadedFiles = new ArrayList<>(); //업로드 성공한 파일들 정보 저장할 리스트
 
         //1. 파일 정보 저장
         for (MultipartFile file : files) {
@@ -65,7 +67,7 @@ public class FileUploadService {
             String uploadPath = uploadDir + "/" + seq + extension;
             try {
                 file.transferTo(new File(uploadPath));
-                uploadFiles.add(fileInfo); //업로드 성공 파일 정보
+                uploadedFiles.add(fileInfo); //업로드 성공 파일 정보
 
 
             } catch (IOException e) {
@@ -76,6 +78,8 @@ public class FileUploadService {
             }
         }
 
-        return uploadFiles; //업로드 성공한 파일들 모아서 반환함
+        uploadedFiles.forEach(fileInfoService::addFileInfo);
+
+        return uploadedFiles; //업로드 성공한 파일들 모아서 반환함
     }
 }
