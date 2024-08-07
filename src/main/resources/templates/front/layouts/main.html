@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="csrf_token" th:content="${_csrf.token}">
     <meta name="csrf_header" th:content="${_csrf.headerName}">
-    <meta anem="rootUrl" th:content="@{'/'}">
+    <meta name="rootUrl" th:content="@{/}" />
     <!--ajax로 요청을 보낼 때 토큰 정보도 실어 보내야 함-->
     <title>
         <th:block th:if="${pageTitle != null}"
