@@ -4,12 +4,11 @@ import org.choongang.global.rests.JSONData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.Map;
 
-@RestControllerAdvice("org.choongang")
+//@RestControllerAdvice("org.choongang")
 public interface RestExceptionProcessor {
 
     @ExceptionHandler(Exception.class)

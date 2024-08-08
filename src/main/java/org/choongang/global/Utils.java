@@ -13,15 +13,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
+@Component("utils")
 @RequiredArgsConstructor
 public class Utils { // 빈의 이름 - utils
 
     private final MessageSource messageSource; //메세지 소스 빈 사용
     private final HttpServletRequest request; //locale 정보 가져오기 위함
+    private final DiscoveryClient discoveryClient;
 
-    public String toUpper(String str) {
-        return str.toUpperCase();
+    public String url(String url) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("front-service");
+
+        try {
+            return String.format("%s%s", instances.get(0).getUri().toString(), url);
+        } catch (Exception e) {
+            return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
+        }
     }
 
     public Map<String, List<String>> getErrorMessages(Errors errors) {

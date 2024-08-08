@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{front/layouts/mypage}">
 <section layout:fragment="content">
-    <h1 th:text="#{내_정보수정}"></h1>
+    <h1 th:text="#{내_정보_수정}"></h1>
     <form name="frmUpdate" method="POST" th:action="${@utils.url('/mypage/info')}" autocomplete="off" th:object="${requestProfile}">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <dl>

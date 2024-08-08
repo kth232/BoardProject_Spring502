@@ -1,8 +1,10 @@
 package org.choongang.global.configs;
 
+import lombok.RequiredArgsConstructor;
 import org.choongang.member.services.LoginFailureHandler;
 import org.choongang.member.services.LoginSuccessHandler;
 import org.choongang.member.services.MemberAuthenticationEntryPoint;
+import org.choongang.member.services.MemberInfoService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -17,7 +19,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity //웹 기본 보안 활성환-보안상 안전하게 사용 가능
 @EnableMethodSecurity //함수에 권한 처리
+@RequiredArgsConstructor
 public class SecurityConfig { //시큐리티 설정
+
+    private final MemberInfoService memberInfoService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -46,7 +51,7 @@ public class SecurityConfig { //시큐리티 설정
         
         //인가(접근 통제) 설정 S
         //도메인 별로(도메인 특화), 람다식으로 설정, 애매한 부분들은 직접 설정 가능<-3버전 이상부터 추가됨
-        http.authorizeRequests(c -> {
+        http.authorizeRequests(authorizeRequests -> {
             /*
             //참고
             c.requestMatchers("/member/**").anonymous() //member 패키지 이하만 허용, 비회원
@@ -54,8 +59,8 @@ public class SecurityConfig { //시큐리티 설정
                     .anyRequest().authenticated(); //일부 허용
             */
             //mypage 포함한 하위 전체 경로
-            c.requestMatchers("/mypage/**").authenticated() //일부 페이지만 회원 전용, mypage 패키지 이하만 허용
-                    .requestMatchers("/admin/**").hasAuthority("ADMIN") //hasAuthority: 관리자 권한, 한개만 줄 수 있음
+            authorizeRequests.requestMatchers("/mypage/**").authenticated() //일부 페이지만 회원 전용, mypage 패키지 이하만 허용
+                    //.requestMatchers("/admin/**").hasAuthority("ADMIN") //hasAuthority: 관리자 권한, 한개만 줄 수 있음
                     .anyRequest().permitAll(); //모든 페이지 허용
         }); //기본 동작이 로그인 페이지로 이동
 
@@ -85,6 +90,15 @@ public class SecurityConfig { //시큐리티 설정
         
         //iframe 자원 출처를 같은 서버 자원으로 한정<-ifrm 오류 방지
         http.headers(c->c.frameOptions(f-> f.sameOrigin()));
+
+        /*자동 로그인 설정 S*/
+        http.rememberMe(c-> {
+            c.rememberMeParameter("autoLogin")
+                    .tokenValiditySeconds(60*60*24*15) // 15일간 유효
+                    .userDetailsService(memberInfoService) //재로그인할 때 인증을 위해
+                    .authenticationSuccessHandler(new LoginSuccessHandler()); // 자동 로그인 성공-> handler가 처리
+        });
+        /*자동 로그인 설정 E*/
 
         return http.build();
     }

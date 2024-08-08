@@ -3,16 +3,20 @@ package org.choongang.member.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.choongang.file.services.repositories.BoardRepository;
+import org.choongang.board.repositories.BoardRepository;
 import org.choongang.global.exceptions.ExceptionProcessor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.services.MemberSaveService;
 import org.choongang.member.validators.JoinValidator;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Controller
@@ -77,6 +81,34 @@ public class MemberController implements ExceptionProcessor { //ExceptionProcess
         return "front/member/login";
     }
 
+    /**
+     * 회원 관련 컨트롤러 공통 처리
+     *
+     * @param mode
+     * @param model
+     */
+    private void commonProcess(String mode, Model model) {
+        mode = Objects.requireNonNullElse(mode, "join");
+
+        List<String> addCss = new ArrayList<>();
+        List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
+
+        addCss.add("member/style");  // 회원 공통 스타일
+        if (mode.equals("join")) {
+            addCommonScript.add("fileManager");
+            addCss.add("member/join");
+            addScript.add("member/join");
+
+        } else if (mode.equals("login")) {
+            addCss.add("member/login");
+        }
+
+        model.addAttribute("addCss", addCss);
+        model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
+    }
+    /*
     @GetMapping("/test6")
     @ResponseBody
     @PreAuthorize("isAuthenticated()") //특정 메서드에 권한 통제 가능, 메서드 실행 전 인증 수행
@@ -93,8 +125,6 @@ public class MemberController implements ExceptionProcessor { //ExceptionProcess
 
     }
 
-
-/*
     @ResponseBody //일반 컨트롤러에서 void를 사용하고 싶을 때
     @GetMapping("/test")
     public void test(Principal principal) {

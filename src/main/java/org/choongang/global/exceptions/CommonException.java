@@ -11,7 +11,7 @@ import java.util.Map;
 public class CommonException extends RuntimeException {
     //우리가 따로 예외처리를 해야하는 경우 우리가 정의한 예외는 해당 클래스에서 나옴
 
-    private boolean errorCode;
+    private boolean errorCode; //true 면 message 가 에러코드
     private HttpStatus status; //응답코드에 맞게 예외 내보낼 것
     private Map<String, List<String>> errorMessages;
 

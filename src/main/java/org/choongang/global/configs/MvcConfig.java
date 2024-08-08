@@ -11,7 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableJpaAuditing //jpa에서 엔티티 변경 이력 관리 기능 활성화
 public class MvcConfig implements WebMvcConfigurer { //기본 설정
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
@@ -25,7 +24,7 @@ public class MvcConfig implements WebMvcConfigurer { //기본 설정
      * @return
      */
     @Bean //빈으로 등록해야 동작함!
-    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() { //_method 방식으로 보냈을 때 해당 방식으로 처리
         return new HiddenHttpMethodFilter(); //post방식으로 들어와도 patch 방식으로
     }
 }

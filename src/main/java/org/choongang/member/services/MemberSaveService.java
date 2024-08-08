@@ -1,5 +1,6 @@
 package org.choongang.member.services;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
@@ -26,6 +27,7 @@ public class MemberSaveService {
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberUtil memberUtil;
+    private final HttpSession session;
 
     /**
      * 회원가입 처리
@@ -47,9 +49,24 @@ public class MemberSaveService {
         Member member = memberUtil.getMember();
         String email = member.getEmail();
         member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+        String password = form.getPassword();
+        String mobile = form.getMobile();
+        if (StringUtils.hasText(mobile)) {
+            mobile = mobile.replaceAll("\\D", "");
+        }
 
+        member.setUserName(form.getUserName());
+        member.setMobile(mobile);
+
+        if (StringUtils.hasText(password)) {
+            String hash = passwordEncoder.encode(password);
+            member.setPassword(hash);
+        }
+
+        memberRepository.saveAndFlush(member);
+
+        session.setAttribute("userInfoChanged", true);
     }
-
 
     //특정 아이템을 찾는 것보다 비우고 새로 추가하는 방식->간단함
     public void save(Member member, List<Authority> authorities) {

@@ -54,6 +54,8 @@ public class MyPageController {
 
         memberSaveService.save(form);
 
+        //SecurityContextHolder.getContext().setAuthentication();
+
         return "redirect:/mypage";
     }
 }

@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<aside th:fragment="menus">
-    <a th:href="${@utils.url('/mypage/info')}" th:text="#{회원정보_수정}"></a>
-    <a th:href="${@utils.url('/mypage/mypost')}" th:text="#{내가_쓴_게시글}"></a>
-</aside>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{front/layouts/main}">
+<main layout:fragment="content">
+    <h1 th:text="#{마이_페이지}"></h1>
+
+    <div class="buttons">
+        <a th:href="@{/mypage/profile}">
+            <button type="submit" th:text="#{내_프로필}"></button>
+        </a>
+        <a th:href="@{/mypage/info}">
+            <button type="submit" th:text="#{내_정보_수정}"></button>
+        </a>
+    </div>
+
+</main>
 </html>

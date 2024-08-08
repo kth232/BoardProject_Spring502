@@ -33,7 +33,6 @@
                 <dd>
                     <input type="password" name="confirmPassword" th:field="*{confirmPassword}">
                     <div class="error" th:each="err: ${#fields.errors('confirmPassword')}" th:text="${err}"></div>
-
                 </dd>
             </dl>
             <dl>

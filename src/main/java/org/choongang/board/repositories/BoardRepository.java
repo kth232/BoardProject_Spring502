@@ -1,6 +1,6 @@
-package org.choongang.file.services.repositories;
+package org.choongang.board.repositories;
 
-import org.choongang.file.services.entities.Board;
+import org.choongang.board.entities.Board;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 
