@@ -10,7 +10,7 @@
         <form name="frmRegist" method="POST" th:action="@{/member/join}" autocomplete="off" th:object="${requestJoin}">
             <!--스타일링을 위해 error 클래스 추가-->
             <div class="error global" th:each="err: ${#fields.globalErrors()}" th:text="${err}"></div>
-
+            <input type="hidden" name="gid" th:field="*{gid}">
             <dl>
                 <dt th:text="#{이메일}"></dt>
                 <dd>
@@ -50,6 +50,12 @@
                     <div class="error" th:each="err: ${#fields.errors('mobile')}" th:text="${err}"></div>
                 </dd>
             </dl>
+            <dl>
+                <dt th:text="#{프로필_이미지}"></dt>
+                <dd>
+                    <button type="button" th:text="#{이미지_업로드}" class="fileUploads" th:data-gid="*{gid}"></button>
+                </dd>
+            </dl>
             <div class="terms">
                 <!--이름 값에 공백 불가->'_'로 채우기-->
                 <div class="tit" th:text="#{회원가입_약관}"></div>
@@ -64,5 +70,6 @@
                 <button type="submit" th:text="#{가입하기}"></button>
             </div>
         </form>
+        <script th:replace="~{common::_file_tpl.html}" />
     </main>
 </html>

@@ -28,7 +28,7 @@ public class FileConfig implements WebMvcConfigurer {
         //외부 정적 자원 경로, 위치를 매핑하는 메서드
         // /upload/**
         registry.addResourceHandler(properties.getUrl() + "**")
-                .addResourceLocations("file:///" + properties.getPath());
+                .addResourceLocations("file:///" + properties.getPath() + "/");
 
     }
 }

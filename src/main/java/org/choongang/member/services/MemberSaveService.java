@@ -1,12 +1,15 @@
 package org.choongang.member.services;
 
 import lombok.RequiredArgsConstructor;
+import org.choongang.member.MemberUtil;
 import org.choongang.member.constants.Authority;
 import org.choongang.member.controllers.RequestJoin;
 import org.choongang.member.entities.Authorities;
 import org.choongang.member.entities.Member;
+import org.choongang.member.exceptions.MemberNotFoundException;
 import org.choongang.member.repositories.AuthoritiesRepository;
 import org.choongang.member.repositories.MemberRepository;
+import org.choongang.mypage.controllers.RequestProfile;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +25,7 @@ public class MemberSaveService {
     private final MemberRepository memberRepository;
     private final AuthoritiesRepository authoritiesRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MemberUtil memberUtil;
 
     /**
      * 회원가입 처리
@@ -34,6 +38,19 @@ public class MemberSaveService {
 
         save(member, List.of(Authority.USER));
     }
+
+    /**
+     * 회원정보 수정
+     * @param form
+     */
+    public void save(RequestProfile form) {
+        Member member = memberUtil.getMember();
+        String email = member.getEmail();
+        member = memberRepository.findByEmail(email).orElseThrow(MemberNotFoundException::new);
+
+    }
+
+
     //특정 아이템을 찾는 것보다 비우고 새로 추가하는 방식->간단함
     public void save(Member member, List<Authority> authorities) {
 

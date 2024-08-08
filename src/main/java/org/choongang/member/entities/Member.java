@@ -16,6 +16,9 @@ public class Member extends BaseEntity {
     @GeneratedValue
     private Long seq; //자동 증감 번호, 기본키
 
+    @Column(length=45, nullable = false)
+    private String gid; //프로필
+
     @Column(length = 65, unique = true, nullable = false) //notNull 제약조건 o
     private String email;
 
