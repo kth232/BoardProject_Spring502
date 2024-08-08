@@ -35,6 +35,12 @@ dependencies {
 	testRuntimeOnly 'com.h2database:h2' //매번 실행할 필요없이 test할 때만 실행하기 때문에 testRuntimeOnly로 변경
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.session:spring-session-data-redis'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0' //thymeleaf-layout 추가
 	implementation 'org.modelmapper:modelmapper:3.2.1' //필드 값을 자동으로 객체와 mapping
