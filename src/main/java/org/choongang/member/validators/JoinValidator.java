@@ -1,10 +1,11 @@
 package org.choongang.member.validators;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.choongang.member.controllers.RequestJoin;
-import org.choongang.member.repositories.MemberRepository;
 import org.choongang.global.validators.MobileValidator;
 import org.choongang.global.validators.PasswordValidator;
+import org.choongang.member.controllers.RequestJoin;
+import org.choongang.member.repositories.MemberRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -14,6 +15,7 @@ import org.springframework.validation.Validator;
 public class JoinValidator implements Validator, PasswordValidator, MobileValidator {
 
     private final MemberRepository memberRepository;
+    private final HttpSession session;
 
     @Override
     public boolean supports(Class<?> clazz) {

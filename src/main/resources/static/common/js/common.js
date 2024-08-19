@@ -17,11 +17,13 @@ const commonLib = {
       //?. : 옵셔널 체이닝, null, undefined일 때 오류 방지를 위함, 무시하고 undefined로 대체해서 내보냄
         const csrfToken = document.querySelector("meta[name='csrf_token']")?.content?.trim();
         const csrfHeader = document.querySelector("meta[name='csrf_header']")?.content?.trim();
-        let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
-        rootUrl = rootUrl === '/' ? '' : rootUrl;
-      //빈 문자열 넣어주기, nullish
 
-        url = location.protocol + "//" + location.host + rootUrl + url;
+        if (!/^http[s]?/i.test(url)) {
+            let rootUrl = document.querySelector("meta[name='rootUrl']")?.content?.trim() ?? '';
+            rootUrl = rootUrl === '/' ? '' : rootUrl;
+
+            url = location.protocol + "//" + location.host + rootUrl + url;
+        }
 
         method = method.toUpperCase();
         if (method === 'GET') {
@@ -44,11 +46,56 @@ const commonLib = {
         if (data) options.body = data;
         if (headers) options.headers = headers;
 
-        return new Promise((resolve, reject) => {//promise는 후속처리 편의를 위함
+        return new Promise((resolve, reject) => {
             fetch(url, options)
                 .then(res => responseType === 'text' ? res.text() : res.json()) // res.json() - JSON / res.text() - 텍스트
-                .then(data => resolve(data)) //성공 시
-                .catch(err => reject(err)); //실패 시 에러 응답
+                .then(data => resolve(data))
+                .catch(err => reject(err));
         });
+    },
+    /**
+     * 에디터 로드
+     *
+     */
+    editorLoad(id) {
+        if(!ClassicEditor || !id?.trim()) return;
+
+        return ClassicEditor.create(document.getElementById(id.trim()), {});
     }
+};
+
+/**
+ * 이메일 인증 메일 보내기
+ *
+ * @param email : 인증할 이메일
+ */
+commonLib.sendEmailVerify = function(email) {
+    const { ajaxLoad } = commonLib;
+
+    const url = `/email/verify?email=${email}`;
+
+    ajaxLoad(url, "GET", null, null, "json")
+        .then(data => {
+            if (typeof callbackEmailVerify == 'function') { // 이메일 승인 코드 메일 전송 완료 후 처리 콜백
+                callbackEmailVerify(data);
+            }
+        })
+        .catch(err => console.error(err));
+};
+
+/**
+ * 인증 메일 코드 검증 처리
+ *
+ */
+commonLib.sendEmailVerifyCheck = function(authNum) {
+    const { ajaxLoad } = commonLib;
+    const url = `/email/auth_check?authNum=${authNum}`;
+
+    ajaxLoad(url, "GET", null, null, "json")
+        .then(data => {
+            if (typeof callbackEmailVerifyCheck == 'function') { // 인증 메일 코드 검증 요청 완료 후 처리 콜백
+                callbackEmailVerifyCheck(data);
+            }
+        })
+        .catch(err => console.error(err));
 };

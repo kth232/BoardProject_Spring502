@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-    <header th:fragment="common">
-        <div>
-            <th:block sec:authorize="isAnonymous()">
-                <a th:href="@{/member/join}" th:text="#{회원가입}"></a>
-                <a th:href="@{/member/login}" th:text="#{로그인}"></a>
-            </th:block>
-            <th:block sec:authorize="isAuthenticated()">
-                <span th:text="${#messages.msg('LOGIN_MSG', loggedMember.userName, loggedMember.email)}"></span>
-                <a th:href="@{/member/logout}" th:text="#{로그아웃}"></a>
-                <a th:href="@{/member/mypage}" th:text="#{마이페이지}"></a>
-
-                <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank" th:text="#{사이트_관리}"></a>
-            </th:block>
-        </div>
-    </header>
+<header th:fragment="common">
+    <h1>상단 영역</h1>
+    <a th:href="@{/}">
+        <button type="button" th:text="#{메인화면}"></button>
+    </a>
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="${@utils.redirectUrl('/member/login')}">
+            <button type="button" th:text="#{로그인}"></button>
+        </a>
+        <a th:href="${@utils.redirectUrl('/member/join')}">
+            <button type="button" th:text="#{회원가입}"></button>
+        </a>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <div th:replace="~{common/_profile_image::image1}"></div>
+        <span th:text="${#messages.msg('LOGIN_MSG',loggedMember.userName,loggedMember.email)}"/><br>
+        <a th:href="${@utils.redirectUrl('/member/logout')}">
+            <button type="button" th:text="#{로그아웃}"></button>
+        </a>
+        <a th:href="@{@utils.redirect('/mypage')}">
+            <button type="button" th:text="#{마이페이지}"></button>
+        </a>
+        <a sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin}" target="_blank">
+            <button type="button" th:text="#{관리자_페이지}"></button>
+        </a>
+    </th:block>
+</header>
 </html>
